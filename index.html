@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="./scripts.js" type="application/javascript"></script>
+        <title>Compound interest calculator</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <h1>Term deposit calculator</h1>
+        <form>
+            <div id="validation" style="color: red"></div>
+            <fieldset>
+                <label for="principal">Deposit Amount $</label>
+                <input id="principal" type="number" />
+            </fieldset>
+            <fieldset>
+                <label for="interestRate">Interest rate %</label>
+                <input id="interestRate" type="number" />
+            </fieldset>
+            <fieldset>
+                <label for="term">Term (Months)</label>
+                <input id="term" type="number" />
+            </fieldset>
+            <fieldset>
+                <label for="interestPaid">Interest Paid</label>
+                <select id="interestPaid">
+                    <option value=12>Monthly</option>
+                    <option value=3>Quarterly</option>
+                    <option value=1>Annually</option>
+                    <option value=0>At Maturity</option>
+                </select>
+            </fieldset>
+            <button type="submit" onclick="(function(){
+                const p = parseFloat(document.getElementById('principal').value);
+                const r = parseFloat(document.getElementById('interestRate').value);
+                const t = parseInt(document.getElementById('term').value);
+                const n = parseInt(document.getElementById('interestPaid').value);
+
+                const validation = validate(p, r, t, n)
+
+                if (validation.length > 0) {
+                    document.getElementById('validation').innerHTML=validation.join('<br />')
+                    return false;
+                }
+
+                const result = calculateTermAmount(p, r/100, t/12, n);
+                document.getElementById('validation').innerHTML=''
+                document.getElementById('result').innerText=`Result: $${parseInt(result)}`
+            })(); return false;">Calculate</button>
+        </form>
+        <h2 id="result"></h2>
+    </body>
+</html>
